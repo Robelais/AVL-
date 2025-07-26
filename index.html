@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width, initial-scale=1.0">
+        <title>AVL STORE - Vos abonnements premium</title>
+        <link href="https://fonts.googleapis.com/css2?family=;ontserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+       <link rel="stylesheet" href="style.css">
+       <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <section class="hero">
+        <h1 class="logo floating">AVL STORE</h1>
+        <p class="tagline">Votre porte d'entrée vers le divertissement premium. Accédez à Netflix, Prime Video et bien plus, au meilleur prix.</p>
+        <button class="cta-button pulse" onclick="scrollToPlans()">Découvrir nos offres</button>
+        
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-film"></i>
+                <h3>Netflix Premium</h3>
+                <p>Séries et films illimités</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-tv"></i>
+                <h3>Prime Video</h3>
+                <p>Contenu Amazon exclusif</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-music"></i>
+                <h3>Spotify</h3>
+                <p>Musique sans publicité</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="plans">
+        <h2 class="section-title">Nos Offres d'Abonnement</h2>
+        
+        <div class="plans-container">
+            <div class="plan-card">
+                <h3 class="plan-title">Netflix Personnel</h3>
+                <div class="plan-price">3000<span>FCFA/mois</span></div>
+                <ul class="plan-features">
+                    <li>Un seul compte</li>
+                    <li>Regardez sur un appareil</li>
+                    <li>Bonne qualité vidéo</li>
+                    <li>Accès à tous les contenus</li>
+                    <li>Sans engagement</li>
+                </ul>
+                <button class="plan-button" onclick="selectPlan('netflix-personal')">Choisir cette offre</button>
+            </div>
+
+            <div class="plan-card">
+                <div class="plan-popular">POPULAIRE</div>
+                <h3 class="plan-title">Netflix Familial</h3>
+                <div class="plan-price">12000<span>FCFA/mois</span></div>
+                <ul class="plan-features">
+                    <li>Jusqu'à 5 profils</li>
+                    <li>4 appareils simultanés</li>
+                    <li>Très bonne qualité</li>
+                    <li>Contenu premium inclus</li>
+                    <li><strong>Prix réduit !</strong></li>
+                </ul>
+                <button class="plan-button" onclick="selectPlan('netflix-family')">Choisir cette offre</button>
+            </div>
+
+            <div class="plan-card">
+                <h3 class="plan-title">Prime Video</h3>
+                <div class="plan-price">5000<span>FCFA/mois</span></div>
+                <ul class="plan-features">
+                    <li>Contenu Amazon Prime</li>
+                    <li>Films et séries exclusifs</li>
+                    <li>Bonne qualité vidéo</li>
+                    <li>Compatible tous appareils</li>
+                    <li>Accès à Prime Gaming</li>
+                </ul>
+                <button class="plan-button" onclick="selectPlan('primevideo')">Choisir cette offre</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="registration-section">
+            <h2 class="section-title" style="color: white;">Créer votre compte</h2>
+            <form id="registrationForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Nom complet</label>
+                        <input type="text" class="form-input" id="fullName" required placeholder="Entrez votre nom complet">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="email" required placeholder="votre@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Téléphone</label>
+                        <input type="tel" class="form-input" id="phone" required placeholder="Votre numéro de téléphone">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Abonnement choisi</label>
+                        <select class="form-input" id="subscriptionType" required>
+                            <option value="">Sélectionnez votre abonnement</option>
+                            <option value="netflix-personal">Netflix Personnel (3000 FCFA)</option>
+                            <option value="netflix-family">Netflix Familial (12000 FCFA)</option>
+                            <option value="primevideo">Prime Video (5000 FCFA)</option>
+                            <option value="other">Autres abonnements</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" class="cta-button" onclick="validateForm()">Procéder au paiement</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="payment-section">
+        <h2 class="section-title" style="color: white;">Paiement sécurisé</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Après validation de votre compte, vous serez redirigé vers la plateforme de paiement sécurisée.
+        </p>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Autres Abonnements</h2>
+        <div style="text-align: center; margin: 40px 0;">
+            <p style="font-size: 1.2rem; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Pour Spotify, iTunes, Cloud et autres services, contactez-nous via WhatsApp
+            </p>
+            <a href="http://wa.me/2250594715068" class="whatsapp-button" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+                Commander via WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <div class="admin-link">
+        <a href="#" onclick="showAdminLogin()">
+            <i class="fas fa-lock"></i> Espace Administrateur
+        </a>
+    </div>
+
+    <footer>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p>&copy; 2025 AVL STORE. Tous droits réservés.</p>
+        <p>Votre partenaire de confiance pour les abonnements premium</p>
+    </footer>
+
+    
+</body>
+</html>
