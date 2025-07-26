@@ -64,24 +64,28 @@
 
         // Procéder au paiement
         function proceedToPayment(planType) {
-            let paymentUrl = '';
-            switch(planType) {
-                case 'netflix-personal':
-                    paymentUrl = 'https://pay.wave.com/m/M_ci_twqQfXwhJpwP/c/ci/?amount=3000';
-                    break;
-                case 'netflix-family':
-                    paymentUrl = 'https://pay.wave.com/m/M_ci_twqQfXwhJpwP/c/ci/?amount=12000';
-                    break;
-                case 'primevideo':
-                    paymentUrl = 'https://pay.wave.com/m/M_ci_twqQfXwhJpwP/c/ci/?amount=5000';
-                    break;
-                default:
-                    window.open('http://wa.me/2250594715068', '_blank');
-                    return;
-            }
+    console.log("Plan Type:", planType); // Log pour vérifier le planType
+    let paymentUrl = '';
+    switch (planType) {
+        case 'netflix-personal':
+            paymentUrl = 'https://pay.wave.com/m/M_ci_twqQfXwhJpwP/c/ci/?amount=3000';
+            break;
+        case 'netflix-family':
+            paymentUrl = 'https://pay.wave.com/m/M_ci_twqQfXwhJpwP/c/ci/?amount=12000';
+            break;
+        case 'primevideo':
+            paymentUrl = 'https://pay.wave.com/m/M_ci_twqQfXwhJpwP/c/ci/?amount=5000';
+            break;
+        default:
+            console.log("Plan Type non reconnu:", planType);
+            window.open('https://chat.whatsapp.com/GmhxpXjcOCVHbS7ydrqB3F?mode=ac_t', '_blank');
+            return;
+       }
+    console.log("Ouverture de la fenêtre de paiement avec URL:", paymentUrl);
+    window.open(paymentUrl, '_blank');
 
-            window.open(paymentUrl, '_blank');
-        }
+        
+ }
 
         // Accès administrateur
         function showAdminLogin() {
