@@ -89,7 +89,7 @@ function saveUserData(name, email, phone, subscription) {
 
 // Procéder au paiement
 function proceedToPayment(planType) {
-    console.log("Procéder au paiement pour:", planType);
+    console.log("Plan Type:", planType);
     let paymentUrl = '';
     
     switch (planType) {
@@ -103,10 +103,14 @@ function proceedToPayment(planType) {
             paymentUrl = 'https://pay.wave.com/m/M_ci_twqQfXwhJpwP/c/ci/?amount=5000';
             break;
         default:
-            console.log("Plan non reconnu, redirection WhatsApp");
-            window.open('https://chat.whatsapp.com/GmhxpXjcOCVHbS7ydrqB3F?mode=ac_t', '_blank');
+            console.log("Plan Type non reconnu:", planType);
+            window.location.href = 'https://chat.whatsapp.com/GmhxpXjcOCVHbS7ydrqB3F?mode=ac_t';
             return;
     }
+    
+    console.log("Redirection vers la page de paiement:", paymentUrl);
+    window.location.href = paymentUrl;
+}
     
     console.log("Redirection vers:", paymentUrl);
     // Utiliser location.href au lieu de window.open pour éviter les popups bloqués
