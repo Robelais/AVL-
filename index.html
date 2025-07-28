@@ -81,57 +81,41 @@
         </div>
     </section>
 
+    <!-- Section avec le formulaire ajouté -->
     <section class="section">
         <div class="registration-section">
             <h2 class="section-title" style="color: white;">Créer votre compte</h2>
-            <!-- Script existant -->
-<script src="script.js"></script>
-
-<!-- Nouveau script pour la validation du formulaire -->
-<script>
-document.getElementById('registrationForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const submitButton = this.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
-    submitButton.textContent = 'Envoi en cours...';
-    submitButton.disabled = true;
-    
-    const formData = new FormData(this);
-    const data = {
-        fullName: formData.get('fullName'),
-        email: formData.get('email'),
-        phone: formData.get('phone'),
-        subscription: formData.get('subscriptionType')
-    };
-    
-    try {
-        const response = await fetch('/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            alert(result.message);
-            // Optionnel : rediriger vers une page de confirmation
-            // window.location.href = '/confirmation.html';
-        } else {
-            alert('Erreur : ' + result.error);
-        }
-    } catch (error) {
-        console.error('Erreur:', error);
-        alert('Erreur de connexion. Veuillez réessayer.');
-    } finally {
-        submitButton.textContent = originalText;
-        submitButton.disabled = false;
-    }
-});
-</script>
+            
+            <!-- Formulaire de création de compte -->
+            <form id="registrationForm" class="registration-form">
+                <div class="form-group">
+                    <label for="fullName">Nom complet *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Téléphone *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subscriptionType">Type d'abonnement souhaité *</label>
+                    <select id="subscriptionType" name="subscriptionType" required>
+                        <option value="">Sélectionnez un abonnement</option>
+                        <option value="netflix-personal">Netflix Personnel</option>
+                        <option value="netflix-family">Netflix Familial</option>
+                        <option value="primevideo">Prime Video</option>
+                        <option value="spotify">Spotify</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="submit-button">Créer mon compte</button>
+            </form>
         </div>
     </section>
 
@@ -173,52 +157,57 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
     </footer>
 
     <!-- Script existant -->
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
-<!-- Nouveau script pour la validation du formulaire -->
-<script>
-document.getElementById('registrationForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const submitButton = this.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
-    submitButton.textContent = 'Envoi en cours...';
-    submitButton.disabled = true;
-    
-    const formData = new FormData(this);
-    const data = {
-        fullName: formData.get('fullName'),
-        email: formData.get('email'),
-        phone: formData.get('phone'),
-        subscription: formData.get('subscriptionType')
-    };
-    
-    try {
-        const response = await fetch('/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            alert(result.message);
-            // Optionnel : rediriger vers une page de confirmation
-            // window.location.href = '/confirmation.html';
-        } else {
-            alert('Erreur : ' + result.error);
+    <!-- Script pour la validation du formulaire (UN SEUL FOIS) -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('registrationForm');
+        if (form) {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const submitButton = this.querySelector('button[type="submit"]');
+                const originalText = submitButton.textContent;
+                submitButton.textContent = 'Envoi en cours...';
+                submitButton.disabled = true;
+                
+                const formData = new FormData(this);
+                const data = {
+                    fullName: formData.get('fullName'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    subscription: formData.get('subscriptionType')
+                };
+                
+                try {
+                    const response = await fetch('/api/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert(result.message);
+                        // Réinitialiser le formulaire
+                        form.reset();
+                    } else {
+                        alert('Erreur : ' + result.error);
+                    }
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    alert('Erreur de connexion. Veuillez réessayer.');
+                } finally {
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                }
+            });
         }
-    } catch (error) {
-        console.error('Erreur:', error);
-        alert('Erreur de connexion. Veuillez réessayer.');
-    } finally {
-        submitButton.textContent = originalText;
-        submitButton.disabled = false;
-    }
-});
-</script>
+    });
+    </script>
 </body>
 </html>
