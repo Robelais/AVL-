@@ -1,4 +1,4 @@
-<script 1>
+<script>
 // Créer les étoiles animées
 function createStars() {
     const starsContainer = document.getElementById('stars');
@@ -241,4 +241,5 @@ document.addEventListener('DOMContentLoaded', function() {
     transform: none;
 }
 });
+
 
