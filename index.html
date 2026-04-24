@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a3a 50%, #0a0a2a 100%);
+            background:background-image: url('chemin/vers/votre-image.jpg');;
             color: #fff;
             min-height: 100vh;
             overflow-x: hidden;
@@ -772,17 +772,8 @@
 💰 Montant: ${price}
 ⏰ Date: ${date}
 🌐 Source: AVL STORE Website
-
 ━━━━━━━━━━━━━━━━━━━━
-✅ ACTION REQUISE
-━━━━━━━━━━━━━━━━━━━━
-
-
-
-*Lien WhatsApp client:* https://wa.me/${data.phone.replace(/[^0-9]/g, '')}
-
-━━━━━━━━━━━━━━━━━━━━
-📍 *AVL STORE `;
+📍 AVL STORE `;
         }
         
         // Sauvegarde locale
@@ -941,7 +932,7 @@
         
         function checkAdminPassword() {
             const password = document.getElementById('adminPassword').value;
-            if (password === 'admin123') {
+            if (password === 'AVL123') {
                 showNotification('Accès administrateur accordé', 'success');
                 // Afficher les inscriptions stockées
                 const registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
