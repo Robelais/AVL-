@@ -617,7 +617,7 @@
     </section>
 
     <div class="admin-link">
-        <a href="./admin.html" onclick="showAdminLogin(event)">
+        <a href="admin.html" onclick="showAdminLogin(event)">
             <i class="fas fa-lock"></i> Espace Administrateur
         </a>
     </div>
@@ -920,20 +920,7 @@
             }
         });
         
-        // Admin functions
-        function showAdminLogin(event) {
-            event.preventDefault();
-            document.getElementById('adminModal').style.display = 'flex';
-        }
         
-        function closeAdminModal() {
-            document.getElementById('adminModal').style.display = 'none';
-        }
-        
-        function checkAdminPassword() {
-            const password = document.getElementById('adminPassword').value;
-            if (password === 'AVL123') {
-                showNotification('Accès administrateur accordé', 'success');
                 // Afficher les inscriptions stockées
                 const registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
                 console.table(registrations);
