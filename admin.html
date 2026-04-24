@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - Connexion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a3a, #0a0a2a);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Page de connexion avec image de fond dynamique */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background-image 0.3s ease;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 0;
+        }
+
+        .login-box {
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Logo dans la page de connexion */
+        .login-logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-logo img {
+            max-width: 120px;
+            max-height: 120px;
+            object-fit: contain;
+        }
+
+        .login-logo .default-logo {
+            font-size: 4rem;
+        }
+
+        .login-box h1 {
+            margin-bottom: 0.5rem;
+            color: #e74c3c;
+        }
+
+        .login-box p {
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 15px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Interface Admin */
+        .admin-interface {
+            display: none;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        /* Logo dans la sidebar */
+        .sidebar-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar-logo img {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .sidebar-logo .default-logo {
+            font-size: 3rem;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #e74c3c;
+        }
+
+        .sidebar nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar nav a:hover,
+        .sidebar nav a.active {
+            background: rgba(231, 76, 60, 0.3);
+            border-left: 3px solid #e74c3c;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+        }
+
+        .admin-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        .admin-section h2 {
+            margin-bottom: 1.5rem;
+            color: #e74c3c;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: inherit;
+        }
+
+        .form-group input[type="file"] {
+            background: transparent;
+            color: white;
+            padding: 0;
+        }
+
+        .preview-image {
+            max-width: 150px;
+            max-height: 150px;
+            margin-top: 0.5rem;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        button {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .data-table {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        th {
+            background: rgba(231, 76, 60, 0.3);
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        .btn-delete {
+            background: #c0392b;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .btn-export {
+            background: #27ae60;
+            margin-right: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+            }
+            .sidebar span {
+                display: none;
+            }
+            .sidebar nav a {
+                justify-content: center;
+            }
+            .main-content {
+                margin-left: 80px;
+            }
+            .sidebar-logo img {
+                max-width: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- PAGE DE CONNEXION -->
+    <div id="loginPage" class="login-container">
+        <div class="login-box">
+            <div id="loginLogoContainer" class="login-logo"></div>
+            <h1>🔐 Administration</h1>
+            <p>Connectez-vous pour accéder au panel</p>
+            <input type="email" id="loginEmail" placeholder="admin@premiumservice.com" autocomplete="off">
+            <input type="password" id="loginPassword" placeholder="Mot de passe">
+            <button onclick="login()">Se connecter</button>
+            <div id="loginError" class="error-msg"></div>
+        </div>
+    </div>
+
+    <!-- INTERFACE ADMIN -->
+    <div id="adminInterface" class="admin-interface">
+        <div class="admin-container">
+            <div class="sidebar">
+                <div id="sidebarLogoContainer" class="sidebar-logo"></div>
+                <nav>
+                    <a onclick="showSection('dashboard')" class="active">
+                        <span>📊</span> <span>Tableau de bord</span>
+                    </a>
+                    <a onclick="showSection('inscriptions')">
+                        <span>📝</span> <span>Inscriptions</span>
+                    </a>
+                    <a onclick="showSection('settings')">
+                        <span>⚙️</span> <span>Paramètres</span>
+                    </a>
+                    <a onclick="showSection('appearance')">
+                        <span>🎨</span> <span>Apparence</span>
+                    </a>
+                </nav>
+                <button class="logout-btn" onclick="logout()">
+                    <span>🚪</span> <span>Déconnexion</span>
+                </button>
+            </div>
+
+            <div class="main-content">
+                <!-- Tableau de Bord -->
+                <div id="dashboard" class="admin-section active">
+                    <h2>📊 Tableau de bord</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="icon">👥</span>
+                            <h3 id="totalInscriptions">0</h3>
+                            <p>Total des inscriptions</p>
+                        </div>
+                        <div class="stat-card">
+                            <span class="icon">📅</span>
+                            <h3 id="todayInscriptions">0</h3>
+                            <p>Inscriptions aujourd'hui</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gestion des Inscriptions -->
+                <div id="inscriptions" class="admin-section">
+                    <h2>📝 Liste des inscriptions</h2>
+                    <div class="data-table">
+                        <table id="inscriptionsTable">
+                            <thead>
+                                <tr>
+                                    <th>Nom complet</th>
+                                    <th>Email</th>
+                                    <th>Téléphone</th>
+                                    <th>Plan choisi</th>
+                                    <th>Date d'inscription</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Paramètres généraux -->
+                <div id="settings" class="admin-section">
+                    <h2>⚙️ Paramètres du site</h2>
+                    <form id="settingsForm">
+                        <div class="form-group">
+                            <label>🏷️ Titre du site</label>
+                            <input type="text" id="siteTitle" placeholder="Titre principal">
+                        </div>
+                        <div class="form-group">
+                            <label>📝 Slogan / Tagline</label>
+                            <input type="text" id="siteTagline" placeholder="Slogan du site">
+                        </div>
+                        <div class="form-group">
+                            <label>🎨 Couleur principale (ex: #e74c3c)</label>
+                            <input type="text" id="primaryColor" placeholder="#e74c3c">
+                        </div>
+                        <div class="form-group">
+                            <label>⭐ Titre des features</label>
+                            <input type="text" id="featuresTitle" placeholder="Pourquoi nous choisir ?">
+                        </div>
+                        <div class="form-group">
+                            <label>💰 Titre des plans</label>
+                            <input type="text" id="plansTitle" placeholder="Nos offres">
+                        </div>
+                        <div class="form-group">
+                            <label>📞 WhatsApp (numéro)</label>
+                            <input type="text" id="whatsappNumber" placeholder="+123456789">
+                        </div>
+                        <div class="form-group">
+                            <label>✉️ Email de contact</label>
+                            <input type="email" id="contactEmail" placeholder="contact@site.com">
+                        </div>
+                        <button type="submit">💾 Enregistrer les modifications</button>
+                    </form>
+                </div>
+
+                <!-- Apparence (Logo + Image de fond) -->
+                <div id="appearance" class="admin-section">
+                    <h2>🎨 Apparence du site</h2>
+                    
+                    <!-- Section Logo -->
+                    <div style="margin-bottom: 2rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 15px;">
+                        <h3 style="color: #e74c3c; margin-bottom: 1rem;">🏷️ Logo du site</h3>
+                        <div id="logoPreview" style="margin-bottom: 1rem;"></div>
+                        <div class="form-group">
+                            <label>📁 Importer un logo (PNG, JPG, GIF)</label>
+                            <input type="file" id="logoUpload" accept="image/*">
+                        </div>
+                        <button onclick="uploadLogo()">📤 Exporter/Upload le logo</button>
+                        <button onclick="resetLogo()" style="background: #c0392b; margin-left: 0.5rem;">🗑️ Supprimer le logo</button>
+                        <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 0.5rem;">Le logo apparaîtra sur la page de connexion et dans la barre latérale admin.</p>
+                    </div>
+
+                    <!-- Section Image de fond -->
+                    <div style="margin-bottom: 2rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 15px;">
+                        <h3 style="color: #e74c3c; margin-bottom: 1rem;">🖼️ Image de fond (page de connexion)</h3>
+                        <div id="bgPreview" style="margin-bottom: 1rem;"></div>
+                        <div class="form-group">
+                            <label>📁 Importer une image de fond</label>
+                            <input type="file" id="bgUpload" accept="image/*">
+                        </div>
+                        <button onclick="uploadBackground()">📤 Exporter/Upload l'image de fond</button>
+                        <button onclick="resetBackground()" style="background: #c0392b; margin-left: 0.5rem;">🗑️ Réinitialiser le fond</button>
+                        <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 0.5rem;">L'image de fond apparaîtra derrière la boîte de connexion.</p>
+                    </div>
+
+                    <hr style="margin: 2rem 0; border-color: rgba(255,255,255,0.2);">
+                    
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button onclick="exportAllData()" class="btn-export">📥 Exporter toutes les données</button>
+                        <button onclick="resetAllData()" style="background: #c0392b;">⚠️ Réinitialiser tout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== DONNÉES ==========
+        let adminData = {
+            inscriptions: [],
+            settings: {
+                siteTitle: "Premium Service",
+                siteTagline: "L'excellence à portée de main",
+                primaryColor: "#e74c3c",
+                featuresTitle: "Pourquoi nous choisir ?",
+                plansTitle: "Nos offres premium",
+                whatsappNumber: "+123456789",
+                contactEmail: "contact@premiumservice.com"
+            },
+            logo: null,        // Stocke le logo en base64
+            background: null   // Stocke l'image de fond en base64
+        };
+
+        // Identifiants de connexion
+        const VALID_EMAIL = "admin@premiumservice.com";
+        const VALID_PASSWORD = "Admin123";
+
+        // ========== FONCTIONS DE CONNEXION ==========
+        function login() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+
+            if(email === VALID_EMAIL && password === VALID_PASSWORD) {
+                localStorage.setItem('adminLoggedIn', 'true');
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('adminInterface').style.display = 'block';
+                loadData();
+            } else {
+                errorDiv.textContent = 'Email ou mot de passe incorrect';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('adminInterface').style.display = 'none';
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // ========== GESTION DES DONNÉES ==========
+        function loadData() {
+            const saved = localStorage.getItem('adminData');
+            if(saved) {
+                adminData = JSON.parse(saved);
+            } else {
+                // Données d'exemple
+                adminData.inscriptions = [
+                    { nom: "Jean Dupont", email: "jean@email.com", telephone: "0612345678", plan: "Pro", date: new Date().toLocaleDateString() },
+                    { nom: "Marie Martin", email: "marie@email.com", telephone: "0687654321", plan: "Basic", date: new Date().toLocaleDateString() }
+                ];
+                saveData();
+            }
+            updateDashboard();
+            updateInscriptionsTable();
+            updateSettingsForm();
+            applySettingsToIndex();
+            updateLogosAndBackground();
+        }
+
+        function saveData() {
+            localStorage.setItem('adminData', JSON.stringify(adminData));
+        }
+
+        // ========== LOGO ET IMAGE DE FOND ==========
+        function updateLogosAndBackground() {
+            // Mettre à jour l'affichage du logo dans la page de connexion et sidebar
+            const loginLogoContainer = document.getElementById('loginLogoContainer');
+            const sidebarLogoContainer = document.getElementById('sidebarLogoContainer');
+            
+            if(adminData.logo) {
+                loginLogoContainer.innerHTML = `<img src="${adminData.logo}" alt="Logo" style="max-width: 120px; max-height: 120px; object-fit: contain;">`;
+                sidebarLogoContainer.innerHTML = `<img src="${adminData.logo}" alt="Logo" style="max-width: 100px; max-height: 100px; object-fit: contain; border-radius: 15px;">`;
+            } else {
+                loginLogoContainer.innerHTML = `<div class="default-logo">👑</div>`;
+                sidebarLogoContainer.innerHTML = `<div class="default-logo">👑</div>`;
+            }
+
+            // Mettre à jour l'image de fond de la page de connexion
+            const loginPage = document.getElementById('loginPage');
+            if(adminData.background) {
+                loginPage.style.backgroundImage = `url('${adminData.background}')`;
+            } else {
+                loginPage.style.backgroundImage = `linear-gradient(135deg, #1a1a3a, #0a0a2a)`;
+            }
+
+            // Afficher les prévisualisations dans la section apparence
+            const logoPreview = document.getElementById('logoPreview');
+            if(adminData.logo) {
+                logoPreview.innerHTML = `<img src="${adminData.logo}" class="preview-image" alt="Aperçu logo"><p>Logo actuel</p>`;
+            } else {
+                logoPreview.innerHTML = `<p style="opacity: 0.6;">👑 Aucun logo (icône par défaut)</p>`;
+            }
+
+            const bgPreview = document.getElementById('bgPreview');
+            if(adminData.background) {
+                bgPreview.innerHTML = `<img src="${adminData.background}" class="preview-image" alt="Aperçu fond" style="width: 200px;"><p>Image de fond actuelle</p>`;
+            } else {
+                bgPreview.innerHTML = `<p style="opacity: 0.6;">🌄 Fond par défaut (dégradé)</p>`;
+            }
+        }
+
+        function uploadLogo() {
+            const fileInput = document.getElementById('logoUpload');
+            const file = fileInput.files[0];
+            if(!file) {
+                showNotification('Veuillez sélectionner une image', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                adminData.logo = e.target.result;
+                saveData();
+                updateLogosAndBackground();
+                showNotification('Logo exporté avec succès !', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function uploadBackground() {
+            const fileInput = document.getElementById('bgUpload');
+            const file = fileInput.files[0];
+            if(!file) {
+                showNotification('Veuillez sélectionner une image', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                adminData.background = e.target.result;
+                saveData();
+                updateLogosAndBackground();
+                showNotification('Image de fond exportée avec succès !', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetLogo() {
+            adminData.logo = null;
+            saveData();
+            updateLogosAndBackground();
+            showNotification('Logo supprimé', 'success');
+        }
+
+        function resetBackground() {
+            adminData.background = null;
+            saveData();
+            updateLogosAndBackground();
+            showNotification('Image de fond réinitialisée', 'success');
+        }
+
+        // ========== TABLEAU DE BORD ==========
+        function updateDashboard() {
+            const total = adminData.inscriptions.length;
+            const today = new Date().toLocaleDateString();
+            const todayCount = adminData.inscriptions.filter(i => i.date === today).length;
+            
+            document.getElementById('totalInscriptions').textContent = total;
+            document.getElementById('todayInscriptions').textContent = todayCount;
+        }
+
+        // ========== TABLEAU DES INSCRIPTIONS ==========
+        function updateInscriptionsTable() {
+            const tbody = document.querySelector('#inscriptionsTable tbody');
+            if(!tbody) return;
+            
+            tbody.innerHTML = adminData.inscriptions.map((ins, index) => `
+                <tr>
+                    <td>${ins.nom}</td>
+                    <td>${ins.email}</td>
+                    <td>${ins.telephone || '-'}</td>
+                    <td>${ins.plan}</td>
+                    <td>${ins.date}</td>
+                    <td><button class="btn-delete" onclick="deleteInscription(${index})">🗑️ Supprimer</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteInscription(index) {
+            if(confirm('Supprimer cette inscription ?')) {
+                adminData.inscriptions.splice(index, 1);
+                saveData();
+                updateDashboard();
+                updateInscriptionsTable();
+                showNotification('Inscription supprimée', 'success');
+            }
+        }
+
+        // ========== PARAMÈTRES ==========
+        function updateSettingsForm() {
+            document.getElementById('siteTitle').value = adminData.settings.siteTitle;
+            document.getElementById('siteTagline').value = adminData.settings.siteTagline;
+            document.getElementById('primaryColor').value = adminData.settings.primaryColor;
+            document.getElementById('featuresTitle').value = adminData.settings.featuresTitle;
+            document.getElementById('plansTitle').value = adminData.settings.plansTitle;
+            document.getElementById('whatsappNumber').value = adminData.settings.whatsappNumber;
+            document.getElementById('contactEmail').value = adminData.settings.contactEmail;
+        }
+
+        function applySettingsToIndex() {
+            localStorage.setItem('siteSettings', JSON.stringify(adminData.settings));
+            localStorage.setItem('siteLogo', adminData.logo || '');
+            localStorage.setItem('siteBackground', adminData.background || '');
+        }
+
+        document.getElementById('settingsForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            adminData.settings = {
+                siteTitle: document.getElementById('siteTitle').value,
+                siteTagline: document.getElementById('siteTagline').value,
+                primaryColor: document.getElementById('primaryColor').value,
+                featuresTitle: document.getElementById('featuresTitle').value,
+                plansTitle: document.getElementById('plansTitle').value,
+                whatsappNumber: document.getElementById('whatsappNumber').value,
+                contactEmail: document.getElementById('contactEmail').value
+            };
+            saveData();
+            applySettingsToIndex();
+            showNotification('Paramètres enregistrés avec succès !', 'success');
+        });
+
+        // ========== NAVIGATION ==========
+        function showSection(section) {
+            document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(section).classList.add('active');
+            document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
+            if(event && event.target) {
+                event.target.closest('a').classList.add('active');
+            }
+        }
+
+        // ========== NOTIFICATION ==========
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                padding: 1rem 2rem;
+                background: ${type === 'success' ? '#27ae60' : '#e74c3c'};
+                color: white;
+                border-radius: 10px;
+                z-index: 9999;
+                animation: slideIn 0.3s ease;
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // ========== EXPORT / RESET ==========
+        function exportAllData() {
+            const dataStr = JSON.stringify(adminData, null, 2);
+            const blob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `backup-complet-${new Date().toISOString().slice(0,19)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showNotification('Export complet effectué', 'success');
+        }
+
+        function resetAllData() {
+            if(confirm('⚠️ ATTENTION : Cette action supprimera TOUTES les données (inscriptions, paramètres, logo et image de fond). Êtes-vous sûr ?')) {
+                localStorage.removeItem('adminData');
+                adminData = {
+                    inscriptions: [],
+                    settings: {
+                        siteTitle: "Premium Service",
+                        siteTagline: "L'excellence à portée de main",
+                        primaryColor: "#e74c3c",
+                        featuresTitle: "Pourquoi nous choisir ?",
+                        plansTitle: "Nos offres premium",
+                        whatsappNumber: "+123456789",
+                        contactEmail: "contact@premiumservice.com"
+                    },
+                    logo: null,
+                    background: null
+                };
+                saveData();
+                updateDashboard();
+                updateInscriptionsTable();
+                updateSettingsForm();
+                updateLogosAndBackground();
+                showNotification('Données réinitialisées', 'success');
+            }
+        }
+
+        // ========== VÉRIFICATION DE SESSION ==========
+        if(localStorage.getItem('adminLoggedIn') === 'true') {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('adminInterface').style.display = 'block';
+            loadData();
+        }
+
+        // Animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
